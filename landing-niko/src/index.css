@@ -1,0 +1,114 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050505;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.hero {
+  min-height: 100vh;
+  background: url("/hero-bg.jpg") center center;
+  background-size: cover;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+  padding: 20px;
+}
+
+.logo {
+  width: 220px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  color: #ccc;
+  font-size: 1.2rem;
+}
+
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.btn {
+  padding: 14px 28px;
+  background: white;
+  color: black;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.section {
+  padding: 100px 10%;
+}
+
+.section h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 3rem;
+}
+
+.dark {
+  background: #111;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  gap: 20px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+footer {
+  padding: 50px;
+  text-align: center;
+  background: #000;
+}
+
+footer a {
+  color: white;
+}
