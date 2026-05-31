@@ -346,7 +346,10 @@ footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-}.specialties {
+}
+
+
+.specialties {
   background: radial-gradient(circle at top, #151515, #050505 65%);
 }
 
