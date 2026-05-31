@@ -1,0 +1,408 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050505;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.hero {
+  min-height: 100vh;
+  background: url("/hero-bg.jpg") center center;
+  background-size: cover;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+  padding: 20px;
+}
+
+.logo {
+  width: 220px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  color: #ccc;
+  font-size: 1.2rem;
+}
+
+.buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.btn {
+  padding: 14px 28px;
+  background: white;
+  color: black;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.section {
+  padding: 100px 10%;
+}
+
+.section h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 3rem;
+}
+
+.dark {
+  background: #111;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  gap: 20px;
+}
+
+.gallery img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+footer {
+  padding: 50px;
+  text-align: center;
+  background: #000;
+}
+
+footer a {
+  color: white;
+}
+
+
+.section-text {
+  text-align: center;
+  color: #999;
+  margin-bottom: 40px;
+}
+
+.elfsight-app-218a40ad-a8a5-4e08-adce-ce4e6d618485 {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero,
+.section,
+footer {
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.25));
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.hero h1 {
+  letter-spacing: 4px;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+.studio-card {
+  max-width: 850px;
+  margin: 0 auto;
+  background: #080808;
+  border: 1px solid #222;
+  border-radius: 24px;
+  padding: 40px;
+  text-align: center;
+  color: #ccc;
+  line-height: 1.8;
+}
+
+.booking {
+  text-align: center;
+}
+
+.turnero-box {
+  max-width: 700px;
+  margin: 35px auto;
+  padding: 40px;
+  border-radius: 24px;
+  border: 1px dashed #555;
+  background: #0d0d0d;
+}
+
+.turnero-box h3 {
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+}
+
+.turnero-box p {
+  color: #aaa;
+}
+
+.whatsapp-float {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 20;
+  background: #25d366;
+  color: #000;
+  padding: 14px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 0 25px rgba(37, 211, 102, 0.45);
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .section {
+    padding: 70px 6%;
+  }
+
+  .section h2 {
+    font-size: 2.2rem;
+  }
+}
+
+
+
+.navbar {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 1100px);
+  z-index: 30;
+  background: rgba(10, 10, 10, 0.75);
+  border: 1px solid #222;
+  backdrop-filter: blur(14px);
+  border-radius: 999px;
+  padding: 14px 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  color: white;
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: 4px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 22px;
+}
+
+.nav-links a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    top: 12px;
+    padding: 12px 16px;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
+
+  .nav-links a {
+    font-size: 0.78rem;
+  }
+}
+
+
+
+
+.specialties {
+  background: radial-gradient(circle at top, #151515, #050505 65%);
+}
+
+.specialties-grid,
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+.specialty-card,
+.process-step {
+  min-height: 260px;
+  padding: 32px;
+  border-radius: 24px;
+  background: rgba(15, 15, 15, 0.9);
+  border: 1px solid #252525;
+  transition: 0.3s ease;
+}
+
+.specialty-card:hover,
+.process-step:hover {
+  transform: translateY(-8px);
+  border-color: #555;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.specialty-card span,
+.process-step span {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #777;
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+}
+
+.specialty-card h3,
+.process-step h3 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.specialty-card p,
+.process-step p {
+  color: #aaa;
+  line-height: 1.7;
+}
+
+.process-step span {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #444;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}.specialties {
+  background: radial-gradient(circle at top, #151515, #050505 65%);
+}
+
+.specialties-grid,
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+.specialty-card,
+.process-step {
+  min-height: 260px;
+  padding: 32px;
+  border-radius: 24px;
+  background: rgba(15, 15, 15, 0.9);
+  border: 1px solid #252525;
+  transition: 0.3s ease;
+}
+
+.specialty-card:hover,
+.process-step:hover {
+  transform: translateY(-8px);
+  border-color: #555;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.specialty-card span,
+.process-step span {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: #777;
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+}
+
+.specialty-card h3,
+.process-step h3 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.specialty-card p,
+.process-step p {
+  color: #aaa;
+  line-height: 1.7;
+}
+
+.process-step span {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #444;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
