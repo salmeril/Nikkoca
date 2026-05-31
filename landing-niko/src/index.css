@@ -409,3 +409,157 @@ footer {
   align-items: center;
   justify-content: center;
 }
+
+
+
+
+
+.hero {
+  min-height: 100vh;
+  background:
+    linear-gradient(
+      rgba(0,0,0,.45),
+      rgba(0,0,0,.60)
+    ),
+    url("/hero-bg.png");
+
+  background-size: cover;
+  background-position: center;
+
+  
+}
+
+.overlay {
+  background: rgba(0,0,0,.45);
+}
+
+
+.hero h1 {
+  font-size: 5rem;
+  font-weight: 900;
+  letter-spacing: 8px;
+
+  text-shadow:
+    0 0 10px rgba(255,255,255,.15),
+    0 0 30px rgba(255,255,255,.15);
+}
+
+
+.logo {
+  filter:
+    drop-shadow(0 0 15px rgba(255,255,255,.2))
+    drop-shadow(0 0 40px rgba(255,255,255,.1));
+}
+
+
+
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 24px;
+  padding: 30px;
+  transition: .3s;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  border-color: #444;
+}
+
+.testimonial-card p {
+  color: #ccc;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.testimonial-card span {
+  color: #fff;
+  letter-spacing: 3px;
+}
+
+
+
+
+.faq-list {
+  max-width: 950px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.faq-item {
+  background: #0b0b0b;
+  border: 1px solid #222;
+  border-radius: 20px;
+  padding: 26px;
+}
+
+.faq-item h3 {
+  margin-bottom: 10px;
+  font-size: 1.25rem;
+}
+
+.faq-item p {
+  color: #aaa;
+  line-height: 1.7;
+}
+
+
+
+
+
+.contact-form-section {
+  background: radial-gradient(circle at center, #141414, #050505 70%);
+}
+
+.contact-form {
+  max-width: 750px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  background: #0b0b0b;
+  border: 1px solid #2a2a2a;
+  color: white;
+  padding: 16px 18px;
+  border-radius: 14px;
+  font-size: 1rem;
+  outline: none;
+}
+
+.contact-form textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #777;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: #666;
+}
+
+.contact-form button {
+  border: none;
+  cursor: pointer;
+  justify-self: center;
+  margin-top: 10px;
+}

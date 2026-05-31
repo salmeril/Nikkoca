@@ -198,6 +198,121 @@ function App() {
         </div>
       </section>
 
+       <section className="section testimonials">
+          <h2>Lo que dicen nuestros clientes</h2>
+
+        <div className="testimonials-grid">
+
+          <div className="testimonial-card">
+          <p>
+          "Excelente atención. Me ayudó a bajar la idea y el resultado quedó mejor de lo que imaginaba."
+          </p>
+          <span>★★★★★</span>
+        </div>
+
+      <div className="testimonial-card">
+        <p>
+        "El estudio es súper cómodo, limpio y privado. Volvería sin dudarlo."
+        </p>
+        <span>★★★★★</span>
+      </div>
+
+      <div className="testimonial-card">
+        <p>
+          "Desde el diseño hasta la sesión fue una experiencia impecable."
+        </p>
+        <span>★★★★★</span>
+      </div>
+
+    </div>
+  </section>
+
+
+      <section className="section faq dark">
+        <h2>Preguntas Frecuentes</h2>
+        
+        <div className="faq-list">
+          <div className="faq-item">
+            <h3>¿Cómo reservo un turno?</h3>
+            <p>
+              Escribinos por WhatsApp con tu idea, zona del cuerpo, tamaño aproximado
+              y algunas referencias. Con eso coordinamos disponibilidad y presupuesto.
+            </p>
+          </div>
+        
+          <div className="faq-item">
+            <h3>¿Tengo que dejar seña?</h3>
+            <p>
+              Sí, para confirmar el turno se solicita una seña. Eso permite reservar
+              el día y horario de la sesión.
+            </p>
+          </div>
+        
+          <div className="faq-item">
+            <h3>¿Puedo llevar una referencia?</h3>
+            <p>
+              Sí. Podés mandar imágenes de referencia para orientar el estilo, pero el
+              diseño se adapta para que sea una pieza personalizada.
+            </p>
+          </div>
+        
+          <div className="faq-item">
+            <h3>¿Cómo me preparo para la sesión?</h3>
+            <p>
+              Recomendamos venir descansado, hidratado y haber comido antes. También
+              evitá alcohol o medicamentos no indicados antes de tatuarte.
+            </p>
+          </div>
+        
+          <div className="faq-item">
+            <h3>¿Me explican los cuidados posteriores?</h3>
+            <p>
+              Sí. Al terminar la sesión te indicamos cómo limpiar, hidratar y cuidar
+              el tatuaje durante los primeros días.
+            </p>
+          </div>
+        </div>
+      </section>
+
+
+        <section className="section contact-form-section">
+            <h2>Consultá tu idea</h2>
+            
+            <p className="section-text">
+              Dejanos algunos datos y te respondemos para coordinar presupuesto y turno.
+            </p>
+            
+            <form className="contact-form">
+              <input type="text" placeholder="Nombre" />
+            
+              <input type="tel" placeholder="WhatsApp" />
+            
+              <select>
+                <option>Zona del cuerpo</option>
+                <option>Brazo</option>
+                <option>Pierna</option>
+                <option>Espalda</option>
+                <option>Pecho</option>
+                <option>Cuello</option>
+                <option>Otra zona</option>
+              </select>
+            
+              <select>
+                <option>Tamaño aproximado</option>
+                <option>Pequeño</option>
+                <option>Mediano</option>
+                <option>Grande</option>
+                <option>Manga / pieza grande</option>
+              </select>
+            
+              <textarea placeholder="Contanos tu idea o referencia"></textarea>
+            
+              <button type="submit" className="btn">
+                Enviar consulta
+              </button>
+            </form>
+          </section>
+
       <section id="turnos" className="section booking">
         <h2>Reservá tu Turno</h2>
 
@@ -205,6 +320,10 @@ function App() {
           Consultá disponibilidad, presupuestos o dejá tu idea para coordinar
           una sesión.
         </p>
+
+
+       
+
 
         <div className="turnero-box">
           <h3>Espacio para turnero</h3>
