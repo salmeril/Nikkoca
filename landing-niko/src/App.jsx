@@ -29,6 +29,33 @@ function App() {
     idea: "",
   });
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const galleryImages = [
+    "/gallery/tattoo1.jpg",
+    "/gallery/tattoo2.jpg",
+    "/gallery/tattoo3.jpg",
+    "/gallery/tattoo4.jpg",
+    "/gallery/tattoo5.jpg",
+    "/gallery/tattoo6.jpg",
+  ];
+
+  const selectedIndex = galleryImages.indexOf(selectedImage);
+
+  const nextImage = (e) => {
+    e.stopPropagation();
+    const nextIndex = (selectedIndex + 1) % galleryImages.length;
+    setSelectedImage(galleryImages[nextIndex]);
+  };
+
+  const prevImage = (e) => {
+    e.stopPropagation();
+    const prevIndex =
+      (selectedIndex - 1 + galleryImages.length) % galleryImages.length;
+
+    setSelectedImage(galleryImages[prevIndex]);
+  };
+
   useEffect(() => {
     loadSlim(tsParticles);
   }, []);
@@ -163,7 +190,7 @@ Idea: ${formData.idea}`
         </div>
       </section>
 
-      <RevealSection className="stats">
+      <RevealSection className="section stats">
         <div className="stats-grid">
           <div>
             <h3>+500</h3>
@@ -184,18 +211,20 @@ Idea: ${formData.idea}`
 
       <RevealSection className="section featured-gallery">
         <h2>Trabajos Destacados</h2>
-        
+
         <p className="section-text">
-          Algunas piezas seleccionadas del estudio.
+          Algunas piezas seleccionadas realizadas en NK Tattoo Studio.
         </p>
-        
+
         <div className="featured-grid">
-          <img src="/gallery/tattoo1.jpg" alt="Tattoo destacado 1" />
-          <img src="/gallery/tattoo2.jpg" alt="Tattoo destacado 2" />
-          <img src="/gallery/tattoo3.jpg" alt="Tattoo destacado 3" />
-          <img src="/gallery/tattoo4.jpg" alt="Tattoo destacado 4" />
-          <img src="/gallery/tattoo5.jpg" alt="Tattoo destacado 5" />
-          <img src="/gallery/tattoo6.jpg" alt="Tattoo destacado 6" />
+          {galleryImages.map((image, index) => (
+            <img
+              key={image}
+              src={image}
+              alt={`Tattoo destacado ${index + 1}`}
+              onClick={() => setSelectedImage(image)}
+            />
+          ))}
         </div>
       </RevealSection>
 
@@ -486,6 +515,26 @@ Idea: ${formData.idea}`
           </a>
         </div>
       </RevealSection>
+
+      {selectedImage && (
+        <div className="image-modal" onClick={() => setSelectedImage(null)}>
+          <button className="close-modal">×</button>
+
+          <button className="modal-arrow left-arrow" onClick={prevImage}>
+            ‹
+          </button>
+
+          <img
+            src={selectedImage}
+            alt="Tattoo ampliado"
+            onClick={(e) => e.stopPropagation()}
+          />
+
+          <button className="modal-arrow right-arrow" onClick={nextImage}>
+            ›
+          </button>
+        </div>
+      )}
 
       <footer>
         <h3>NK Tattoo Studio</h3>
