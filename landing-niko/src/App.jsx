@@ -209,6 +209,40 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      <RevealSection className="section about">
+        <div className="about-grid">
+          <div className="about-image">
+            <img src="/niko.jpg" alt="Niko Cáceres tatuador" />
+          </div>
+        
+          <div className="about-content">
+            <span>Sobre el artista</span>
+        
+            <h2>Niko Cáceres</h2>
+        
+            <p>
+              Artista tatuador enfocado en piezas con identidad, técnica y carácter.
+              Cada diseño se trabaja de forma personalizada, buscando que el tatuaje
+              represente algo propio para quien lo lleva.
+            </p>
+        
+            <p>
+              En NK Tattoo Studio la experiencia es privada, cómoda y cuidada desde
+              la primera consulta hasta los cuidados posteriores.
+            </p>
+        
+            <a
+              href="https://wa.me/541140798101"
+              target="_blank"
+              rel="noreferrer"
+              className="btn"
+            >
+              Consultar por un diseño
+            </a>
+          </div>
+        </div>
+      </RevealSection>
+
       <RevealSection className="section featured-gallery">
         <h2>Trabajos Destacados</h2>
 
