@@ -427,16 +427,22 @@ a {
   border-radius: 20px;
   border: 1px solid #222;
 
-  transition: all 0.35s ease;
+  filter: grayscale(100%);
+  transition: all .45s ease;
+
   cursor: pointer;
 }
 
+
 .featured-grid img:hover {
+  filter: grayscale(0%);
   transform: translateY(-8px) scale(1.02);
+
   border-color: #666;
+
   box-shadow:
-    0 20px 50px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(255, 255, 255, 0.05);
+    0 20px 50px rgba(0,0,0,.4),
+    0 0 30px rgba(255,255,255,.05);
 }
 
 /* =========================
@@ -1045,6 +1051,9 @@ body {
 }
 
 @media (max-width: 768px) {
+    .featured-grid img {
+    filter: grayscale(0%);
+  }
   .section {
     width: 100%;
     padding-left: 22px;
@@ -1120,4 +1129,42 @@ body {
   color: #bbb;
   line-height: 1.7;
   font-size: 1.1rem;
+}
+
+
+
+.hero-bg-motion {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+.hero-bg-motion .hero-video {
+  transform: scale(1.08);
+}
+
+
+
+.hero-bg-motion {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  will-change: transform, opacity;
+}
+
+.hero-bg-motion .hero-video {
+  transform: scale(1.08);
+}
+
+
+
+.navbar-hidden {
+  transform: translate(-50%, -120%);
+}
+
+@media (max-width: 768px) {
+  .navbar-hidden {
+    transform: translateY(-140%);
+  }
 }

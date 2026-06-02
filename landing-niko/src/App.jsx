@@ -1,10 +1,13 @@
 import "./index.css";
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Particles from "@tsparticles/react";
 import { tsParticles } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
 
+/* =========================
+   REVEAL SECTION
+========================= */
 function RevealSection({ children, className = "", id = "" }) {
   return (
     <motion.section
@@ -21,6 +24,9 @@ function RevealSection({ children, className = "", id = "" }) {
 }
 
 function App() {
+  /* =========================
+     STATES
+  ========================= */
   const [formData, setFormData] = useState({
     nombre: "",
     whatsapp: "",
@@ -31,9 +37,20 @@ function App() {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  /* =========================
+     HERO PARALLAX
+  ========================= */
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 600], [0, 120]);
+  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.35]);
+
+  /* =========================
+     GALLERY
+  ========================= */
   const galleryImages = [
     "/gallery/tattoo1.jpg",
     "/gallery/tattoo2.jpg",
@@ -53,12 +70,16 @@ function App() {
 
   const prevImage = (e) => {
     e.stopPropagation();
+
     const prevIndex =
       (selectedIndex - 1 + galleryImages.length) % galleryImages.length;
 
     setSelectedImage(galleryImages[prevIndex]);
   };
 
+  /* =========================
+     EFFECTS
+  ========================= */
   useEffect(() => {
     loadSlim(tsParticles);
   }, []);
@@ -75,8 +96,21 @@ function App() {
   }, []);
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+
+      setIsScrolled(currentScrollY > 50);
+
+      if (currentScrollY > lastScrollY && currentScrollY > 120) {
+        setShowNavbar(false);
+        setMenuOpen(false);
+      } else {
+        setShowNavbar(true);
+      }
+
+      lastScrollY = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -95,6 +129,9 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  /* =========================
+     HANDLERS
+  ========================= */
   const closeMenu = () => {
     setMenuOpen(false);
   };
@@ -122,6 +159,9 @@ Idea: ${formData.idea}`
     window.open(`https://wa.me/541140798101?text=${mensaje}`, "_blank");
   };
 
+  /* =========================
+     PARTICLES
+  ========================= */
   const particlesOptions = useMemo(
     () => ({
       background: {
@@ -156,6 +196,9 @@ Idea: ${formData.idea}`
 
   return (
     <>
+      {/* =========================
+          LOADER
+      ========================= */}
       {loading && (
         <div className="loader">
           <div>
@@ -165,8 +208,14 @@ Idea: ${formData.idea}`
         </div>
       )}
 
+      {/* =========================
+          BACKGROUND PARTICLES
+      ========================= */}
       <Particles className="particles" options={particlesOptions} />
 
+      {/* =========================
+          FLOATING CTA
+      ========================= */}
       <a
         href="https://wa.me/541140798101"
         target="_blank"
@@ -176,7 +225,14 @@ Idea: ${formData.idea}`
         Reservar Turno
       </a>
 
-      <nav className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
+      {/* =========================
+          NAVBAR
+      ========================= */}
+      <nav
+        className={`navbar ${isScrolled ? "navbar-scrolled" : ""} ${
+          showNavbar ? "" : "navbar-hidden"
+        }`}
+      >
         <a href="#" className="nav-logo" onClick={closeMenu}>
           NK
         </a>
@@ -218,10 +274,21 @@ Idea: ${formData.idea}`
 
       <div className="scroll-progress"></div>
 
+      {/* =========================
+          HERO
+      ========================= */}
       <section className="hero">
-        <video autoPlay muted loop playsInline className="hero-video">
-          <source src="/video/hero.mp4" type="video/mp4" />
-        </video>
+        <motion.div
+          className="hero-bg-motion"
+          style={{
+            y: heroY,
+            opacity: heroOpacity,
+          }}
+        >
+          <video autoPlay muted loop playsInline className="hero-video">
+            <source src="/video/hero.mp4" type="video/mp4" />
+          </video>
+        </motion.div>
 
         <div className="overlay"></div>
 
@@ -253,25 +320,49 @@ Idea: ${formData.idea}`
         </div>
       </section>
 
+      {/* =========================
+          STATS
+      ========================= */}
       <RevealSection className="section stats">
         <div className="stats-grid">
           <div>
-            <h3>+500</h3>
+            <motion.h3
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              +500
+            </motion.h3>
             <p>Tatuajes realizados</p>
           </div>
 
           <div>
-            <h3>+200</h3>
+            <motion.h3
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+            >
+              +200
+            </motion.h3>
             <p>Clientes satisfechos</p>
           </div>
 
           <div>
-            <h3>100%</h3>
+            <motion.h3
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              100%
+            </motion.h3>
             <p>Diseños personalizados</p>
           </div>
         </div>
       </RevealSection>
 
+      {/* =========================
+          ABOUT
+      ========================= */}
       <RevealSection className="section about">
         <div className="about-grid">
           <div className="about-image">
@@ -306,6 +397,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          FEATURED GALLERY
+      ========================= */}
       <RevealSection className="section featured-gallery">
         <h2>Trabajos Destacados</h2>
 
@@ -325,6 +419,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          INSTAGRAM FEED
+      ========================= */}
       <RevealSection id="trabajos" className="section">
         <h2>Últimos Trabajos</h2>
 
@@ -338,6 +435,9 @@ Idea: ${formData.idea}`
         ></div>
       </RevealSection>
 
+      {/* =========================
+          SPECIALTIES
+      ========================= */}
       <RevealSection id="especialidades" className="section specialties">
         <h2>Especialidades</h2>
 
@@ -368,6 +468,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          PROCESS
+      ========================= */}
       <RevealSection className="section process dark">
         <h2>Cómo reservar</h2>
 
@@ -407,6 +510,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          PREPARATION
+      ========================= */}
       <RevealSection className="section preparation">
         <h2>Antes de tu sesión</h2>
 
@@ -443,6 +549,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          STUDIO
+      ========================= */}
       <RevealSection id="estudio" className="section dark">
         <h2>Estudio Privado</h2>
 
@@ -459,6 +568,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          TESTIMONIALS
+      ========================= */}
       <RevealSection className="section testimonials">
         <h2>Lo que dicen nuestros clientes</h2>
 
@@ -488,6 +600,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          FAQ
+      ========================= */}
       <RevealSection className="section faq dark">
         <h2>Preguntas Frecuentes</h2>
 
@@ -536,6 +651,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          CONTACT FORM
+      ========================= */}
       <RevealSection id="contacto" className="section contact-form-section">
         <h2>Consultá tu idea</h2>
 
@@ -605,12 +723,19 @@ Idea: ${formData.idea}`
         </form>
       </RevealSection>
 
-      {/*
+      {/* =========================
+          FUTURO TURNERO
+      =========================
+
       <RevealSection id="turnos" className="section booking">
         Acá después va el turnero.
       </RevealSection>
+
       */}
 
+      {/* =========================
+          LOCATION
+      ========================= */}
       <RevealSection className="section location dark">
         <h2>Ubicación</h2>
 
@@ -636,24 +761,30 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
-        <RevealSection className="section final-cta">
-          <h2>¿Listo para tu próximo tatuaje?</h2>
-              
-          <p>
-            Contanos tu idea y armemos una pieza única, personalizada y con carácter.
-          </p>
-              
-          <a
-            href="https://wa.me/541140798101"
-            target="_blank"
-            rel="noreferrer"
-            className="btn"
-          >
-            Reservar por WhatsApp
-          </a>
-        </RevealSection>
+      {/* =========================
+          FINAL CTA
+      ========================= */}
+      <RevealSection className="section final-cta">
+        <h2>¿Listo para tu próximo tatuaje?</h2>
 
+        <p>
+          Contanos tu idea y armemos una pieza única, personalizada y con
+          carácter.
+        </p>
 
+        <a
+          href="https://wa.me/541140798101"
+          target="_blank"
+          rel="noreferrer"
+          className="btn"
+        >
+          Reservar por WhatsApp
+        </a>
+      </RevealSection>
+
+      {/* =========================
+          IMAGE MODAL
+      ========================= */}
       {selectedImage && (
         <div className="image-modal" onClick={() => setSelectedImage(null)}>
           <button className="close-modal">×</button>
@@ -674,6 +805,9 @@ Idea: ${formData.idea}`
         </div>
       )}
 
+      {/* =========================
+          FOOTER
+      ========================= */}
       <footer className="footer">
         <div className="footer-grid">
           <div>
