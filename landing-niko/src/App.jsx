@@ -131,13 +131,13 @@ Idea: ${formData.idea}`
       <Particles className="particles" options={particlesOptions} />
 
       <a
-        href="https://wa.me/541140798101"
-        target="_blank"
-        rel="noreferrer"
-        className="whatsapp-float"
-      >
-        WhatsApp
-      </a>
+         href="https://wa.me/541140798101"
+         target="_blank"
+         rel="noreferrer"
+         className="floating-cta"
+        >
+         Reservar Turno
+        </a>
 
       <nav className="navbar">
         <a href="#" className="nav-logo">
@@ -159,8 +159,14 @@ Idea: ${formData.idea}`
         </div>
       </nav>
 
+      <div className="scroll-progress"></div>
+
       <section className="hero">
-        <div className="overlay"></div>
+        <div className="overlay">
+          <video autoPlay muted loop playsInline className="hero-video">
+            <source src="/video/hero.mp4" type="video/mp4" />
+          </video>
+        </div>
 
         <div className="hero-content">
           <img src="/logo-nk.png" alt="NK Tattoo Studio" className="logo" />
@@ -214,23 +220,23 @@ Idea: ${formData.idea}`
           <div className="about-image">
             <img src="/niko.jpg" alt="Niko Cáceres tatuador" />
           </div>
-        
+
           <div className="about-content">
             <span>Sobre el artista</span>
-        
+
             <h2>Niko Cáceres</h2>
-        
+
             <p>
               Artista tatuador enfocado en piezas con identidad, técnica y carácter.
               Cada diseño se trabaja de forma personalizada, buscando que el tatuaje
               represente algo propio para quien lo lleva.
             </p>
-        
+
             <p>
               En NK Tattoo Studio la experiencia es privada, cómoda y cuidada desde
               la primera consulta hasta los cuidados posteriores.
             </p>
-        
+
             <a
               href="https://wa.me/541140798101"
               target="_blank"
@@ -499,31 +505,19 @@ Idea: ${formData.idea}`
         </form>
       </RevealSection>
 
-      <RevealSection id="turnos" className="section booking">
-        <h2>Reservá tu Turno</h2>
+            {/*
+          <RevealSection id="turnos" className="section booking">
+            <h2>Reservá tu Turno</h2>
 
-        <p className="section-text">
-          Consultá disponibilidad, presupuestos o dejá tu idea para coordinar una
-          sesión.
-        </p>
+            <p className="section-text">
+              Consultá disponibilidad, presupuestos o dejá tu idea para coordinar una sesión.
+            </p>
 
-        <div className="turnero-box">
-          <h3>Espacio para turnero</h3>
-          <p>
-            Acá después podemos insertar Calendly, Google Calendar, TidyCal o un
-            formulario propio.
-          </p>
-        </div>
-
-        <a
-          href="https://wa.me/541140798101"
-          target="_blank"
-          rel="noreferrer"
-          className="btn"
-        >
-          Hablar por WhatsApp
-        </a>
-      </RevealSection>
+            <div className="turnero-box">
+              ...
+            </div>
+          </RevealSection>
+          */}
 
       <RevealSection className="section location dark">
         <h2>Ubicación</h2>
@@ -570,17 +564,33 @@ Idea: ${formData.idea}`
         </div>
       )}
 
-      <footer>
-        <h3>NK Tattoo Studio</h3>
-        <p>Berazategui • Buenos Aires</p>
-
-        <a
-          href="https://instagram.com/nnikocaceres"
-          target="_blank"
-          rel="noreferrer"
-        >
-          @nnikocaceres
-        </a>
+      <footer className="footer">
+        <div className="footer-grid">
+          <div>
+            <h3>NK Tattoo Studio</h3>
+            <p>Tattoos con identidad, técnica y carácter.</p>
+          </div>
+          
+          <div>
+            <h4>Contacto</h4>
+            <a href="https://wa.me/541140798101" target="_blank" rel="noreferrer">
+              WhatsApp
+            </a>
+            <a href="https://instagram.com/nnikocaceres" target="_blank" rel="noreferrer">
+              Instagram
+            </a>
+          </div>
+          
+          <div>
+            <h4>Estudio</h4>
+            <p>Berazategui, Buenos Aires</p>
+            <p>Atención con turno previo</p>
+          </div>
+        </div>
+          
+        <div className="footer-bottom">
+          <p>© 2026 NK Tattoo Studio. Todos los derechos reservados.</p>
+        </div>
       </footer>
     </>
   );
