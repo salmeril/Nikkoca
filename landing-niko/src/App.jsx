@@ -1,10 +1,13 @@
 import "./index.css";
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Particles from "@tsparticles/react";
 import { tsParticles } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
 
+/* =========================
+   REVEAL SECTION
+========================= */
 function RevealSection({ children, className = "", id = "" }) {
   return (
     <motion.section
@@ -21,6 +24,9 @@ function RevealSection({ children, className = "", id = "" }) {
 }
 
 function App() {
+  /* =========================
+     STATES
+  ========================= */
   const [formData, setFormData] = useState({
     nombre: "",
     whatsapp: "",
@@ -30,7 +36,21 @@ function App() {
   });
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
+  /* =========================
+     HERO PARALLAX
+  ========================= */
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 600], [0, 120]);
+  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0.35]);
+
+  /* =========================
+     GALLERY
+  ========================= */
   const galleryImages = [
     "/gallery/tattoo1.jpg",
     "/gallery/tattoo2.jpg",
@@ -50,12 +70,16 @@ function App() {
 
   const prevImage = (e) => {
     e.stopPropagation();
+
     const prevIndex =
       (selectedIndex - 1 + galleryImages.length) % galleryImages.length;
 
     setSelectedImage(galleryImages[prevIndex]);
   };
 
+  /* =========================
+     EFFECTS
+  ========================= */
   useEffect(() => {
     loadSlim(tsParticles);
   }, []);
@@ -70,6 +94,47 @@ function App() {
       document.body.removeChild(script);
     };
   }, []);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      setIsScrolled(currentScrollY > 50);
+
+      if (currentScrollY > lastScrollY && currentScrollY > 120) {
+        setShowNavbar(false);
+        setMenuOpen(false);
+      } else {
+        setShowNavbar(true);
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  /* =========================
+     HANDLERS
+  ========================= */
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -94,6 +159,9 @@ Idea: ${formData.idea}`
     window.open(`https://wa.me/541140798101?text=${mensaje}`, "_blank");
   };
 
+  /* =========================
+     PARTICLES
+  ========================= */
   const particlesOptions = useMemo(
     () => ({
       background: {
@@ -128,31 +196,76 @@ Idea: ${formData.idea}`
 
   return (
     <>
+      {/* =========================
+          LOADER
+      ========================= */}
+      {loading && (
+        <div className="loader">
+          <div>
+            <h2>NK</h2>
+            <p>TATTOO STUDIO</p>
+          </div>
+        </div>
+      )}
+
+      {/* =========================
+          BACKGROUND PARTICLES
+      ========================= */}
       <Particles className="particles" options={particlesOptions} />
 
+      {/* =========================
+          FLOATING CTA
+      ========================= */}
       <a
-         href="https://wa.me/541140798101"
-         target="_blank"
-         rel="noreferrer"
-         className="floating-cta"
-        >
-         Reservar Turno
-        </a>
+        href="https://wa.me/541140798101"
+        target="_blank"
+        rel="noreferrer"
+        className="floating-cta"
+      >
+        Reservar Turno
+      </a>
 
-      <nav className="navbar">
-        <a href="#" className="nav-logo">
+      {/* =========================
+          NAVBAR
+      ========================= */}
+      <nav
+        className={`navbar ${isScrolled ? "navbar-scrolled" : ""} ${
+          showNavbar ? "" : "navbar-hidden"
+        }`}
+      >
+        <a href="#" className="nav-logo" onClick={closeMenu}>
           NK
         </a>
 
-        <div className="nav-links">
-          <a href="#trabajos">Trabajos</a>
-          <a href="#especialidades">Especialidades</a>
-          <a href="#estudio">Estudio</a>
-          <a href="#turnos">Turnos</a>
+        <button
+          className={`hamburger ${menuOpen ? "active" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Abrir menú"
+          type="button"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div className={`nav-links ${menuOpen ? "nav-open" : ""}`}>
+          <a href="#trabajos" onClick={closeMenu}>
+            Trabajos
+          </a>
+          <a href="#especialidades" onClick={closeMenu}>
+            Especialidades
+          </a>
+          <a href="#estudio" onClick={closeMenu}>
+            Estudio
+          </a>
+          <a href="#contacto" onClick={closeMenu}>
+            Contacto
+          </a>
           <a
             href="https://instagram.com/nnikocaceres"
             target="_blank"
             rel="noreferrer"
+            onClick={closeMenu}
           >
             Instagram
           </a>
@@ -161,12 +274,23 @@ Idea: ${formData.idea}`
 
       <div className="scroll-progress"></div>
 
+      {/* =========================
+          HERO
+      ========================= */}
       <section className="hero">
-        <div className="overlay">
+        <motion.div
+          className="hero-bg-motion"
+          style={{
+            y: heroY,
+            opacity: heroOpacity,
+          }}
+        >
           <video autoPlay muted loop playsInline className="hero-video">
             <source src="/video/hero.mp4" type="video/mp4" />
           </video>
-        </div>
+        </motion.div>
+
+        <div className="overlay"></div>
 
         <div className="hero-content">
           <img src="/logo-nk.png" alt="NK Tattoo Studio" className="logo" />
@@ -196,25 +320,49 @@ Idea: ${formData.idea}`
         </div>
       </section>
 
+      {/* =========================
+          STATS
+      ========================= */}
       <RevealSection className="section stats">
         <div className="stats-grid">
           <div>
-            <h3>+500</h3>
+            <motion.h3
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              +500
+            </motion.h3>
             <p>Tatuajes realizados</p>
           </div>
 
           <div>
-            <h3>+200</h3>
+            <motion.h3
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+            >
+              +200
+            </motion.h3>
             <p>Clientes satisfechos</p>
           </div>
 
           <div>
-            <h3>100%</h3>
+            <motion.h3
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              100%
+            </motion.h3>
             <p>Diseños personalizados</p>
           </div>
         </div>
       </RevealSection>
 
+      {/* =========================
+          ABOUT
+      ========================= */}
       <RevealSection className="section about">
         <div className="about-grid">
           <div className="about-image">
@@ -227,14 +375,14 @@ Idea: ${formData.idea}`
             <h2>Niko Cáceres</h2>
 
             <p>
-              Artista tatuador enfocado en piezas con identidad, técnica y carácter.
-              Cada diseño se trabaja de forma personalizada, buscando que el tatuaje
-              represente algo propio para quien lo lleva.
+              Artista tatuador enfocado en piezas con identidad, técnica y
+              carácter. Cada diseño se trabaja de forma personalizada, buscando
+              que el tatuaje represente algo propio para quien lo lleva.
             </p>
 
             <p>
-              En NK Tattoo Studio la experiencia es privada, cómoda y cuidada desde
-              la primera consulta hasta los cuidados posteriores.
+              En NK Tattoo Studio la experiencia es privada, cómoda y cuidada
+              desde la primera consulta hasta los cuidados posteriores.
             </p>
 
             <a
@@ -249,6 +397,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          FEATURED GALLERY
+      ========================= */}
       <RevealSection className="section featured-gallery">
         <h2>Trabajos Destacados</h2>
 
@@ -268,6 +419,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          INSTAGRAM FEED
+      ========================= */}
       <RevealSection id="trabajos" className="section">
         <h2>Últimos Trabajos</h2>
 
@@ -281,6 +435,9 @@ Idea: ${formData.idea}`
         ></div>
       </RevealSection>
 
+      {/* =========================
+          SPECIALTIES
+      ========================= */}
       <RevealSection id="especialidades" className="section specialties">
         <h2>Especialidades</h2>
 
@@ -311,6 +468,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          PROCESS
+      ========================= */}
       <RevealSection className="section process dark">
         <h2>Cómo reservar</h2>
 
@@ -318,13 +478,17 @@ Idea: ${formData.idea}`
           <div className="process-step">
             <span>1</span>
             <h3>Mandá tu idea</h3>
-            <p>Contanos qué querés tatuarte, zona del cuerpo y tamaño aproximado.</p>
+            <p>
+              Contanos qué querés tatuarte, zona del cuerpo y tamaño aproximado.
+            </p>
           </div>
 
           <div className="process-step">
             <span>2</span>
             <h3>Armamos la propuesta</h3>
-            <p>Revisamos referencias, estilo y detalles para bajarlo a un diseño.</p>
+            <p>
+              Revisamos referencias, estilo y detalles para bajarlo a un diseño.
+            </p>
           </div>
 
           <div className="process-step">
@@ -339,11 +503,55 @@ Idea: ${formData.idea}`
           <div className="process-step">
             <span>4</span>
             <h3>Venís a tatuarte</h3>
-            <p>Te esperamos con todo listo para que vivas una experiencia cómoda.</p>
+            <p>
+              Te esperamos con todo listo para que vivas una experiencia cómoda.
+            </p>
           </div>
         </div>
       </RevealSection>
 
+      {/* =========================
+          PREPARATION
+      ========================= */}
+      <RevealSection className="section preparation">
+        <h2>Antes de tu sesión</h2>
+
+        <p className="section-text">
+          Algunas recomendaciones para que la experiencia sea más cómoda.
+        </p>
+
+        <div className="preparation-grid">
+          <div className="preparation-card">
+            <h3>Vení descansado</h3>
+            <p>
+              Dormir bien ayuda a que el cuerpo responda mejor durante la sesión.
+            </p>
+          </div>
+
+          <div className="preparation-card">
+            <h3>Comé antes</h3>
+            <p>
+              No vengas en ayunas. Una buena comida ayuda a mantener la energía.
+            </p>
+          </div>
+
+          <div className="preparation-card">
+            <h3>Hidratate</h3>
+            <p>Tomar agua antes de tatuarte ayuda al estado de la piel.</p>
+          </div>
+
+          <div className="preparation-card">
+            <h3>Evitá alcohol</h3>
+            <p>
+              No consumas alcohol antes de la sesión para evitar complicaciones.
+            </p>
+          </div>
+        </div>
+      </RevealSection>
+
+      {/* =========================
+          STUDIO
+      ========================= */}
       <RevealSection id="estudio" className="section dark">
         <h2>Estudio Privado</h2>
 
@@ -360,6 +568,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          TESTIMONIALS
+      ========================= */}
       <RevealSection className="section testimonials">
         <h2>Lo que dicen nuestros clientes</h2>
 
@@ -389,6 +600,9 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          FAQ
+      ========================= */}
       <RevealSection className="section faq dark">
         <h2>Preguntas Frecuentes</h2>
 
@@ -397,8 +611,8 @@ Idea: ${formData.idea}`
             <h3>¿Cómo reservo un turno?</h3>
             <p>
               Escribinos por WhatsApp con tu idea, zona del cuerpo, tamaño
-              aproximado y algunas referencias. Con eso coordinamos disponibilidad
-              y presupuesto.
+              aproximado y algunas referencias. Con eso coordinamos
+              disponibilidad y presupuesto.
             </p>
           </div>
 
@@ -422,7 +636,8 @@ Idea: ${formData.idea}`
             <h3>¿Cómo me preparo para la sesión?</h3>
             <p>
               Recomendamos venir descansado, hidratado y haber comido antes.
-              También evitá alcohol o medicamentos no indicados antes de tatuarte.
+              También evitá alcohol o medicamentos no indicados antes de
+              tatuarte.
             </p>
           </div>
 
@@ -436,7 +651,10 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
-      <RevealSection className="section contact-form-section">
+      {/* =========================
+          CONTACT FORM
+      ========================= */}
+      <RevealSection id="contacto" className="section contact-form-section">
         <h2>Consultá tu idea</h2>
 
         <p className="section-text">
@@ -505,20 +723,19 @@ Idea: ${formData.idea}`
         </form>
       </RevealSection>
 
-            {/*
-          <RevealSection id="turnos" className="section booking">
-            <h2>Reservá tu Turno</h2>
+      {/* =========================
+          FUTURO TURNERO
+      =========================
 
-            <p className="section-text">
-              Consultá disponibilidad, presupuestos o dejá tu idea para coordinar una sesión.
-            </p>
+      <RevealSection id="turnos" className="section booking">
+        Acá después va el turnero.
+      </RevealSection>
 
-            <div className="turnero-box">
-              ...
-            </div>
-          </RevealSection>
-          */}
+      */}
 
+      {/* =========================
+          LOCATION
+      ========================= */}
       <RevealSection className="section location dark">
         <h2>Ubicación</h2>
 
@@ -544,6 +761,30 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
+      {/* =========================
+          FINAL CTA
+      ========================= */}
+      <RevealSection className="section final-cta">
+        <h2>¿Listo para tu próximo tatuaje?</h2>
+
+        <p>
+          Contanos tu idea y armemos una pieza única, personalizada y con
+          carácter.
+        </p>
+
+        <a
+          href="https://wa.me/541140798101"
+          target="_blank"
+          rel="noreferrer"
+          className="btn"
+        >
+          Reservar por WhatsApp
+        </a>
+      </RevealSection>
+
+      {/* =========================
+          IMAGE MODAL
+      ========================= */}
       {selectedImage && (
         <div className="image-modal" onClick={() => setSelectedImage(null)}>
           <button className="close-modal">×</button>
@@ -564,30 +805,41 @@ Idea: ${formData.idea}`
         </div>
       )}
 
+      {/* =========================
+          FOOTER
+      ========================= */}
       <footer className="footer">
         <div className="footer-grid">
           <div>
             <h3>NK Tattoo Studio</h3>
             <p>Tattoos con identidad, técnica y carácter.</p>
           </div>
-          
+
           <div>
             <h4>Contacto</h4>
-            <a href="https://wa.me/541140798101" target="_blank" rel="noreferrer">
+            <a
+              href="https://wa.me/541140798101"
+              target="_blank"
+              rel="noreferrer"
+            >
               WhatsApp
             </a>
-            <a href="https://instagram.com/nnikocaceres" target="_blank" rel="noreferrer">
+            <a
+              href="https://instagram.com/nnikocaceres"
+              target="_blank"
+              rel="noreferrer"
+            >
               Instagram
             </a>
           </div>
-          
+
           <div>
             <h4>Estudio</h4>
             <p>Berazategui, Buenos Aires</p>
             <p>Atención con turno previo</p>
           </div>
         </div>
-          
+
         <div className="footer-bottom">
           <p>© 2026 NK Tattoo Studio. Todos los derechos reservados.</p>
         </div>
