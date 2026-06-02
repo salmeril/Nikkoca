@@ -30,6 +30,9 @@ function App() {
   });
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const galleryImages = [
     "/gallery/tattoo1.jpg",
@@ -70,6 +73,31 @@ function App() {
       document.body.removeChild(script);
     };
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -128,31 +156,60 @@ Idea: ${formData.idea}`
 
   return (
     <>
+      {loading && (
+        <div className="loader">
+          <div>
+            <h2>NK</h2>
+            <p>TATTOO STUDIO</p>
+          </div>
+        </div>
+      )}
+
       <Particles className="particles" options={particlesOptions} />
 
       <a
-         href="https://wa.me/541140798101"
-         target="_blank"
-         rel="noreferrer"
-         className="floating-cta"
-        >
-         Reservar Turno
-        </a>
+        href="https://wa.me/541140798101"
+        target="_blank"
+        rel="noreferrer"
+        className="floating-cta"
+      >
+        Reservar Turno
+      </a>
 
-      <nav className="navbar">
-        <a href="#" className="nav-logo">
+      <nav className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
+        <a href="#" className="nav-logo" onClick={closeMenu}>
           NK
         </a>
 
-        <div className="nav-links">
-          <a href="#trabajos">Trabajos</a>
-          <a href="#especialidades">Especialidades</a>
-          <a href="#estudio">Estudio</a>
-          <a href="#turnos">Turnos</a>
+        <button
+          className={`hamburger ${menuOpen ? "active" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Abrir menú"
+          type="button"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div className={`nav-links ${menuOpen ? "nav-open" : ""}`}>
+          <a href="#trabajos" onClick={closeMenu}>
+            Trabajos
+          </a>
+          <a href="#especialidades" onClick={closeMenu}>
+            Especialidades
+          </a>
+          <a href="#estudio" onClick={closeMenu}>
+            Estudio
+          </a>
+          <a href="#contacto" onClick={closeMenu}>
+            Contacto
+          </a>
           <a
             href="https://instagram.com/nnikocaceres"
             target="_blank"
             rel="noreferrer"
+            onClick={closeMenu}
           >
             Instagram
           </a>
@@ -162,11 +219,11 @@ Idea: ${formData.idea}`
       <div className="scroll-progress"></div>
 
       <section className="hero">
-        <div className="overlay">
-          <video autoPlay muted loop playsInline className="hero-video">
-            <source src="/video/hero.mp4" type="video/mp4" />
-          </video>
-        </div>
+        <video autoPlay muted loop playsInline className="hero-video">
+          <source src="/video/hero.mp4" type="video/mp4" />
+        </video>
+
+        <div className="overlay"></div>
 
         <div className="hero-content">
           <img src="/logo-nk.png" alt="NK Tattoo Studio" className="logo" />
@@ -227,14 +284,14 @@ Idea: ${formData.idea}`
             <h2>Niko Cáceres</h2>
 
             <p>
-              Artista tatuador enfocado en piezas con identidad, técnica y carácter.
-              Cada diseño se trabaja de forma personalizada, buscando que el tatuaje
-              represente algo propio para quien lo lleva.
+              Artista tatuador enfocado en piezas con identidad, técnica y
+              carácter. Cada diseño se trabaja de forma personalizada, buscando
+              que el tatuaje represente algo propio para quien lo lleva.
             </p>
 
             <p>
-              En NK Tattoo Studio la experiencia es privada, cómoda y cuidada desde
-              la primera consulta hasta los cuidados posteriores.
+              En NK Tattoo Studio la experiencia es privada, cómoda y cuidada
+              desde la primera consulta hasta los cuidados posteriores.
             </p>
 
             <a
@@ -318,13 +375,17 @@ Idea: ${formData.idea}`
           <div className="process-step">
             <span>1</span>
             <h3>Mandá tu idea</h3>
-            <p>Contanos qué querés tatuarte, zona del cuerpo y tamaño aproximado.</p>
+            <p>
+              Contanos qué querés tatuarte, zona del cuerpo y tamaño aproximado.
+            </p>
           </div>
 
           <div className="process-step">
             <span>2</span>
             <h3>Armamos la propuesta</h3>
-            <p>Revisamos referencias, estilo y detalles para bajarlo a un diseño.</p>
+            <p>
+              Revisamos referencias, estilo y detalles para bajarlo a un diseño.
+            </p>
           </div>
 
           <div className="process-step">
@@ -339,7 +400,45 @@ Idea: ${formData.idea}`
           <div className="process-step">
             <span>4</span>
             <h3>Venís a tatuarte</h3>
-            <p>Te esperamos con todo listo para que vivas una experiencia cómoda.</p>
+            <p>
+              Te esperamos con todo listo para que vivas una experiencia cómoda.
+            </p>
+          </div>
+        </div>
+      </RevealSection>
+
+      <RevealSection className="section preparation">
+        <h2>Antes de tu sesión</h2>
+
+        <p className="section-text">
+          Algunas recomendaciones para que la experiencia sea más cómoda.
+        </p>
+
+        <div className="preparation-grid">
+          <div className="preparation-card">
+            <h3>Vení descansado</h3>
+            <p>
+              Dormir bien ayuda a que el cuerpo responda mejor durante la sesión.
+            </p>
+          </div>
+
+          <div className="preparation-card">
+            <h3>Comé antes</h3>
+            <p>
+              No vengas en ayunas. Una buena comida ayuda a mantener la energía.
+            </p>
+          </div>
+
+          <div className="preparation-card">
+            <h3>Hidratate</h3>
+            <p>Tomar agua antes de tatuarte ayuda al estado de la piel.</p>
+          </div>
+
+          <div className="preparation-card">
+            <h3>Evitá alcohol</h3>
+            <p>
+              No consumas alcohol antes de la sesión para evitar complicaciones.
+            </p>
           </div>
         </div>
       </RevealSection>
@@ -397,8 +496,8 @@ Idea: ${formData.idea}`
             <h3>¿Cómo reservo un turno?</h3>
             <p>
               Escribinos por WhatsApp con tu idea, zona del cuerpo, tamaño
-              aproximado y algunas referencias. Con eso coordinamos disponibilidad
-              y presupuesto.
+              aproximado y algunas referencias. Con eso coordinamos
+              disponibilidad y presupuesto.
             </p>
           </div>
 
@@ -422,7 +521,8 @@ Idea: ${formData.idea}`
             <h3>¿Cómo me preparo para la sesión?</h3>
             <p>
               Recomendamos venir descansado, hidratado y haber comido antes.
-              También evitá alcohol o medicamentos no indicados antes de tatuarte.
+              También evitá alcohol o medicamentos no indicados antes de
+              tatuarte.
             </p>
           </div>
 
@@ -436,7 +536,7 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
-      <RevealSection className="section contact-form-section">
+      <RevealSection id="contacto" className="section contact-form-section">
         <h2>Consultá tu idea</h2>
 
         <p className="section-text">
@@ -505,19 +605,11 @@ Idea: ${formData.idea}`
         </form>
       </RevealSection>
 
-            {/*
-          <RevealSection id="turnos" className="section booking">
-            <h2>Reservá tu Turno</h2>
-
-            <p className="section-text">
-              Consultá disponibilidad, presupuestos o dejá tu idea para coordinar una sesión.
-            </p>
-
-            <div className="turnero-box">
-              ...
-            </div>
-          </RevealSection>
-          */}
+      {/*
+      <RevealSection id="turnos" className="section booking">
+        Acá después va el turnero.
+      </RevealSection>
+      */}
 
       <RevealSection className="section location dark">
         <h2>Ubicación</h2>
@@ -543,6 +635,24 @@ Idea: ${formData.idea}`
           </a>
         </div>
       </RevealSection>
+
+        <RevealSection className="section final-cta">
+          <h2>¿Listo para tu próximo tatuaje?</h2>
+              
+          <p>
+            Contanos tu idea y armemos una pieza única, personalizada y con carácter.
+          </p>
+              
+          <a
+            href="https://wa.me/541140798101"
+            target="_blank"
+            rel="noreferrer"
+            className="btn"
+          >
+            Reservar por WhatsApp
+          </a>
+        </RevealSection>
+
 
       {selectedImage && (
         <div className="image-modal" onClick={() => setSelectedImage(null)}>
@@ -570,24 +680,32 @@ Idea: ${formData.idea}`
             <h3>NK Tattoo Studio</h3>
             <p>Tattoos con identidad, técnica y carácter.</p>
           </div>
-          
+
           <div>
             <h4>Contacto</h4>
-            <a href="https://wa.me/541140798101" target="_blank" rel="noreferrer">
+            <a
+              href="https://wa.me/541140798101"
+              target="_blank"
+              rel="noreferrer"
+            >
               WhatsApp
             </a>
-            <a href="https://instagram.com/nnikocaceres" target="_blank" rel="noreferrer">
+            <a
+              href="https://instagram.com/nnikocaceres"
+              target="_blank"
+              rel="noreferrer"
+            >
               Instagram
             </a>
           </div>
-          
+
           <div>
             <h4>Estudio</h4>
             <p>Berazategui, Buenos Aires</p>
             <p>Atención con turno previo</p>
           </div>
         </div>
-          
+
         <div className="footer-bottom">
           <p>© 2026 NK Tattoo Studio. Todos los derechos reservados.</p>
         </div>
