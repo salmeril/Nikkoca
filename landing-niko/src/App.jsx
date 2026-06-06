@@ -1,5 +1,5 @@
 import "./index.css";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Particles from "@tsparticles/react";
 import { tsParticles } from "@tsparticles/engine";
@@ -21,6 +21,8 @@ function RevealSection({ children, className = "", id = "" }) {
 }
 
 function App() {
+  const glowRef = useRef(null);
+
   const [formData, setFormData] = useState({
     nombre: "",
     whatsapp: "",
@@ -51,12 +53,16 @@ function App() {
 
   const nextImage = (e) => {
     e.stopPropagation();
+    if (selectedIndex === -1) return;
+
     const nextIndex = (selectedIndex + 1) % galleryImages.length;
     setSelectedImage(galleryImages[nextIndex]);
   };
 
   const prevImage = (e) => {
     e.stopPropagation();
+    if (selectedIndex === -1) return;
+
     const prevIndex =
       (selectedIndex - 1 + galleryImages.length) % galleryImages.length;
 
@@ -74,7 +80,9 @@ function App() {
     document.body.appendChild(script);
 
     return () => {
-      document.body.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, []);
 
@@ -88,6 +96,41 @@ function App() {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const glow = glowRef.current;
+    if (!glow) return;
+
+    let mouseX = -9999;
+    let mouseY = -9999;
+    let posX = -9999;
+    let posY = -9999;
+    let animationFrameId;
+
+    const move = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    const animate = () => {
+      posX += (mouseX - posX) * 0.08;
+      posY += (mouseY - posY) * 0.08;
+
+      glow.style.transform = `translate3d(${posX - 140}px, ${
+        posY - 140
+      }px, 0)`;
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener("mousemove", move);
+    animate();
+
+    return () => {
+      window.removeEventListener("mousemove", move);
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
@@ -168,6 +211,8 @@ Idea: ${formData.idea}`
           </div>
         </div>
       )}
+
+      <div ref={glowRef} className="cursor-glow"></div>
 
       <div className="ambient-bg">
         <span></span>
@@ -479,14 +524,18 @@ Idea: ${formData.idea}`
         </div>
       </RevealSection>
 
-      <RevealSection id="estudio" className="section dark">
+      <RevealSection id="estudio" className="section studio-section">
         <h2>Estudio Privado</h2>
 
         <div className="studio-card">
+          <div className="studio-icon">✦</div>
+
           <p>
             Un espacio pensado para que cada sesión sea cómoda, segura y
             personalizada.
           </p>
+
+          <div className="studio-divider"></div>
 
           <p>
             Atención individual, higiene profesional y diseños trabajados según
@@ -640,12 +689,6 @@ Idea: ${formData.idea}`
           </button>
         </form>
       </RevealSection>
-
-      {/*
-      <RevealSection id="turnos" className="section booking">
-        Acá después va el turnero.
-      </RevealSection>
-      */}
 
       <RevealSection className="section location dark">
         <h2>Ubicación</h2>

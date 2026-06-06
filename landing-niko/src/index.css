@@ -1418,50 +1418,111 @@ a {
 
 
 /* =========================
-   STUDIO
+   STUDIO SECTION
 ========================= */
-.studio-card {
-  max-width: 1100px;
-  min-height: 420px;
-  margin: 0 auto;
 
-  background-image:
+.studio-section {
+  position: relative;
+
+  background:
     linear-gradient(
-      rgba(0, 0, 0, 0.55),
-      rgba(0, 0, 0, 0.78)
+      rgba(0,0,0,.65),
+      rgba(0,0,0,.75)
     ),
     url("/studio-bg.png");
 
   background-size: cover;
-  background-position: center center;
+  background-position: center;
   background-repeat: no-repeat;
 
-  border: 1px solid rgba(177, 18, 38, 0.45);
-  border-radius: 24px;
+  padding: 140px 20px;
+}
 
-  padding: 120px 50px;
+.studio-section h2 {
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   GLASS CARD
+========================= */
+
+.studio-card {
+  max-width: 520px;
+
+  margin: 0 auto;
+
+  padding: 50px;
+
   text-align: center;
-  color: #fff;
-  line-height: 1.8;
 
-  overflow: hidden;
+  border-radius: 28px;
+
+  background: rgba(0,0,0,.28);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(177,18,38,.55);
+
+  box-shadow:
+    0 15px 50px rgba(0,0,0,.45),
+    0 0 30px rgba(177,18,38,.15);
+
+  color: white;
+}
+
+.studio-icon {
+  font-size: 42px;
+  margin-bottom: 25px;
 }
 
 .studio-card p {
-  max-width: 780px;
-  margin: 0 auto 18px;
   color: #f1f1f1;
-  font-size: 1.08rem;
+  line-height: 1.9;
+  font-size: 1.05rem;
 }
 
-@media (max-width: 768px) {
-  .studio-card {
-    min-height: 360px;
-    padding: 90px 24px;
-    background-position: center center;
-  }
+.studio-divider {
+  width: 140px;
+  height: 1px;
 
-  .studio-card p {
-    font-size: 1rem;
-  }
+  margin: 30px auto;
+
+  background: rgba(177,18,38,.7);
+}
+
+
+
+/* =========================
+   PREMIUM CURSOR GLOW
+========================= */
+.cursor-glow {
+  position: fixed;
+  width: 280px;
+  height: 280px;
+
+  pointer-events: none;
+  z-index: 0;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(177,18,38,.22) 0%,
+      rgba(177,18,38,.10) 40%,
+      transparent 75%
+    );
+
+  filter: blur(25px);
+
+  will-change: transform;
+
+  transform: translate3d(-9999px,-9999px,0);
+
+  backface-visibility: hidden;
+
+  contain: layout style paint;
 }
