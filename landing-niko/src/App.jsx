@@ -690,47 +690,45 @@ Idea: ${formData.idea}`
         </form>
       </RevealSection>
 
-      <RevealSection className="section location dark">
+        <RevealSection className="section location dark">
         <h2>Ubicación</h2>
-
+              
         <p className="section-text">
           Estudio privado en Berazategui, Buenos Aires.
         </p>
-
-        <div className="location-card">
-          <div>
+              
+        <div className="location-card-full">
+              
+          <div className="location-info">
             <h3>NK Tattoo Studio</h3>
-            <p>Atención con turno previo.</p>
-            <p>Dirección exacta al confirmar la reserva.</p>
+              
+            <p>
+              Atención personalizada con turno previo.
+            </p>
+              
+            <p>
+              Ambiente privado, cómodo y preparado para cada sesión.
+            </p>
+              
+            <a
+              href="https://wa.me/541140798101"
+              target="_blank"
+              rel="noreferrer"
+              className="btn"
+            >
+              Reservar Turno
+            </a>
           </div>
-
-          <a
-            href="https://wa.me/541140798101"
-            target="_blank"
-            rel="noreferrer"
-            className="btn"
-          >
-            Consultar ubicación
-          </a>
+              
+          <iframe
+            title="NK Tattoo Studio"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3277.629432124017!2d-58.2157243!3d-34.7649265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a32f256b192d77%3A0x6386a505d52c0c4c!2sNK%20Tattoo%20Estudio!5e0!3m2!1ses-419!2sar!4v1781308393401!5m2!1ses-419!2sar"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+            className="location-map"
+          />
         </div>
-      </RevealSection>
-
-      <RevealSection className="section final-cta">
-        <h2>¿Listo para tu próximo tatuaje?</h2>
-
-        <p>
-          Contanos tu idea y armemos una pieza única, personalizada y con
-          carácter.
-        </p>
-
-        <a
-          href="https://wa.me/541140798101"
-          target="_blank"
-          rel="noreferrer"
-          className="btn"
-        >
-          Reservar por WhatsApp
-        </a>
       </RevealSection>
 
       {selectedImage && (
